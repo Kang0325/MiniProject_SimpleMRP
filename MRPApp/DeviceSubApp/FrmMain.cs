@@ -77,13 +77,12 @@ namespace DeviceSubApp
                 using (var conn = new SqlConnection(connectionString))
                 {
                     var prcResult = correctData["PRC_MSG"] == "OK" ? 1 : 0;
-                    string strUpQry = $"UPDATE Process_DEV " +
-                                      $"     SET PrcEndTime = '{DateTime.Now.ToString("HH:mm:ss")}' " +
-                                      $"       , PrcResult = '{prcResult}' " +
+                    string strUpQry = $"UPDATE Process SET " +
+                                      $"       PrcResult = '{prcResult}' " +
                                       $"       , ModDate = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' " +
                                       $"       , ModID = '{"SYS"}' " +
                                       $"WHERE PrcIdx = " +
-                                      $"(SELECT TOP 1 PrcIdx FROM Process_DEV ORDER BY PrcIdx DESC)";
+                                      $"(SELECT TOP 1 PrcIdx FROM Process ORDER BY PrcIdx DESC)";
 
                     try
                     {
@@ -104,6 +103,7 @@ namespace DeviceSubApp
             iotData.Clear(); // 데이터 모두 삭제
         }
 
+        // MQTT Broker(내부적 소켓)
         private void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             try
@@ -156,6 +156,7 @@ namespace DeviceSubApp
 
         private void UpdateText(string message)
         {
+            // RtbSubscr 리치텍스트박스 (UI 스레드)
             if (RtbSubscr.InvokeRequired)
             {
                 UpdateTextCallback callback = new UpdateTextCallback(UpdateText);

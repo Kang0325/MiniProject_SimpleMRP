@@ -23,7 +23,7 @@ namespace MRPApp.Model
         public int SchIdx { get; set; }
         public string PlantCode { get; set; }
         public System.DateTime SchDate { get; set; }
-        public int LoadTime { get; set; }
+        public int SchLoadTime { get; set; }
         public Nullable<System.TimeSpan> SchStartTime { get; set; }
         public Nullable<System.TimeSpan> SchEndTime { get; set; }
         public string SchFacilityID { get; set; }

@@ -18,6 +18,10 @@ using MRPApp.View;
 using MRPApp.View.Account;
 using MRPApp.View.Store;
 using MRPApp.View.Setting;
+using MRPApp.View.Schedule;
+using System.Configuration;
+using MRPApp.View.Process;
+using MRPApp.View.Report;
 
 namespace MRPApp
 {
@@ -33,8 +37,18 @@ namespace MRPApp
 
         private void MetroWindow_Activated(object sender, EventArgs e)
         {
-            /*if (Commons.LOGINED_USER != null)
-                BtnLoginedId.Content = $"{Commons.LOGINED_USER.UserEmail} ({Commons.LOGINED_USER.UserName})";*/
+            Commons.PLANTCODE = ConfigurationManager.AppSettings.Get("PlantCode");
+            Commons.FACILITYID = ConfigurationManager.AppSettings.Get("FacilityID");
+
+            try
+            {
+                var plantName = Logic.DataAccess.GetSettings().Where(c => c.BasicCode.Equals(Commons.PLANTCODE)).FirstOrDefault().CodeName;
+                BtnPlantName.Content = plantName;
+            }
+            catch (Exception ex)
+            {
+                Commons.LOGGER.Error($"예외 발생 : {ex}");
+            }
         }
 
         private async void BtnAccount_Click(object sender, RoutedEventArgs e)
@@ -47,32 +61,6 @@ namespace MRPApp
             {
                 Commons.LOGGER.Error($"예외발생 BtnAccount_Click : {ex}");
                 await this.ShowMessageAsync("예외", $"예외발생 : {ex}");
-            }
-        }
-
-        private async void BtnUser_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                /*ActiveControl.Content = new UserList();*/
-            }
-            catch (Exception ex)
-            {
-                Commons.LOGGER.Error($"예외발생 BtnUser_Click : {ex}");
-                await this.ShowMessageAsync("예외", $"예외발생 : {ex}");
-            }
-        }
-
-        private void BtnStore_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ActiveControl.Content = new StoreList();
-            }
-            catch (Exception ex)
-            {
-                Commons.LOGGER.Error($"예외발생 BtnStore_Click : {ex}");
-                this.ShowMessageAsync("예외", $"예외발생 : {ex}");
             }
         }
 
@@ -101,6 +89,45 @@ namespace MRPApp
         private void MetroWindow_ContentRendered(object sender, EventArgs e)
         {
 
+        }
+
+        private void BtnSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ActiveControl.Content = new ScheduleList();
+            }
+            catch (Exception ex)
+            {
+                Commons.LOGGER.Error($"예외발생 BtnSetting_Click : {ex}");
+                this.ShowMessageAsync("예외", $"예외발생 : {ex}");
+            }
+        }
+
+        private void BtnMonitoring_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ActiveControl.Content = new ProcessView();
+            }
+            catch (Exception ex)
+            {
+                Commons.LOGGER.Error($"예외발생 BtnSetting_Click : {ex}");
+                this.ShowMessageAsync("예외", $"예외발생 : {ex}");
+            }
+        }
+
+        private void BtnReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ActiveControl.Content = new ReportView();
+            }
+            catch (Exception ex)
+            {
+                Commons.LOGGER.Error($"예외발생 BtnReport_Click : {ex}");
+                this.ShowMessageAsync("예외", $"예외발생 : {ex}");
+            }
         }
     }
 }
