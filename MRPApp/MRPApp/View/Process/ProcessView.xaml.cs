@@ -141,9 +141,9 @@ namespace MRPApp.View.Process
             var prcFailRate = ((double)prcFailAmout / (double)currSchedule.SchAmount) * 100;
 
             LblPrcOkAmount.Content = $"{prcOkAmout} 개";
-            LblPrcOkRate.Content = $"{prcOkRate} %";
+            LblPrcOkRate.Content = $"{prcOkRate.ToString("#.##")} %";
             LblPrcFailAmount.Content = $"{prcFailAmout} 개";
-            LblPrcFailRate.Content = $"{prcFailRate} %";
+            LblPrcFailRate.Content = $"{prcFailRate.ToString("#.##")} %";
         }
 
         Dictionary<string, string> currentData = new Dictionary<string, string>();
